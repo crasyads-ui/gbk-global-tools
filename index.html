@@ -68,12 +68,12 @@
     <div class="sub">Verify your membership and receive <b style="color:var(--gold)">50 GBK</b> as the signup reward, subject to campaign eligibility.</div>
     <input id="name" placeholder="Member name (required)" autocomplete="name" required>
     <input id="email" type="email" placeholder="Email address" autocomplete="email">
-    <input id="wallet" placeholder="Wallet address (optional — for 50 GBK reward)" autocomplete="off">
+    <input id="wallet" placeholder="BNB Smart Chain (BSC/BEP-20) wallet — submit on GBK Wallet" autocomplete="off">
     <select id="country" required><option value="">Select country (required)</option><option>🇮🇳 India</option><option>🇺🇸 USA</option><option>🇬🇧 United Kingdom</option><option>🇯🇵 Japan</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇩🇪 Germany</option><option>🇦🇪 UAE</option><option>🇲🇽 Mexico</option><option>🇵🇭 Philippines</option><option>🌍 Other</option></select>
     <div class="check">By continuing, you agree to the registration terms and privacy policy. One genuine account per person. Verification, eligibility and anti-abuse checks apply.</div>
     <button class="btn primary" style="width:100%" onclick="join()">JOIN GBK GLOBAL — FREE</button>
-    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🎁 SUBMIT WALLET — OPTIONAL / 50 GBK</button>
-    <div id="msg" class="msg">Wallet is optional. Submit a valid BNB wallet to request the 50 GBK signup reward. After wallet submission, verification and reward processing may take up to 14 days, subject to eligibility and anti-abuse checks.</div>
+    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="openGBKWallet()">🎁 OPEN GBK WALLET — SUBMIT FOR 50 GBK</button>
+    <div id="msg" class="msg">For eligible verified members, submit a valid BNB Smart Chain (BSC/BEP-20) wallet through GBK Wallet. Other-chain wallets are not accepted.</div>
     <div class="trust">
       <div><b>🔐 Secure</b><span>Verification required</span></div>
       <div><b>🌍 Global</b><span>Built for worldwide access</span></div>
@@ -106,7 +106,6 @@ const SUPABASE_ANON_KEY='sb_publishable_Y3n5bVO3xveBnyt4LKbCPg_f5ilMSuz';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const GBK_REWARDS_API='https://yjwgnapymqetxvksqacd.supabase.co/functions/v1/gbk-global-rewards';
 document.getElementById("wallet").style.display="none";
-document.querySelector('button[onclick="submitWallet()"]').style.display="none";
 
 const leaders=[];
 function renderLeaders(members){
@@ -177,19 +176,8 @@ async function verifyEmailOtp(){
  window.location.replace("https://gbkai.com/");
 }
 
-async function submitWallet(){
- const wallet=document.getElementById("wallet").value.trim(), msg=document.getElementById("msg");
- if(!/^0x[a-fA-F0-9]{40}$/.test(wallet)){msg.textContent="Enter a valid BNB wallet address.";return;}
- const {data:{session}}=await supabaseClient.auth.getSession();
- if(!session){msg.textContent="Please verify your email first.";return;}
- msg.textContent="Submitting wallet for verification…";
- try{
-   const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({wallet,name:document.getElementById("name").value.trim(),country:document.getElementById("country").value})});
-   const d=await r.json();
-   if(!r.ok) throw new Error(d.error||"Wallet submission failed");
-   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 50 GBK reward is pending verification/transfer and may be processed within up to 14 days.":"✅ Reward already recorded.";
-   setTimeout(()=>{ window.location.href="https://gbkai.com/"; },1500);
- }catch(e){msg.textContent="Wallet submission failed: "+(e.message||"Please try again.");}
+function openGBKWallet(){
+  window.location.href="https://app.gbkai.com/";
 }
 
 function share(){
