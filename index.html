@@ -35,7 +35,7 @@
     <button class="btn primary" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">JOIN GBK GLOBAL — FREE</button>
     <button class="btn secondary" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">EXPLORE BENEFITS</button>
   </div>
-  <div class="pool"><b>🎁 SIGN UP & GET 10 GBK</b><span>Plus participate in the <strong>10,000,000 GBK</strong> promotional pool through qualifying verified sharing activity • Top 100 Share Members • official campaign terms apply</span></div>
+  <div class="pool"><b>🎁 SIGN UP & GET 50 GBK</b><span>Plus earn 50 GBK for each qualifying verified referral • Top 100 Share Members • official campaign terms apply</span></div>
 </section>
 
 <section class="stats">
@@ -65,15 +65,15 @@
 <section class="grid" id="signup">
   <div class="card">
     <h2>⚡ Join GBK Global Free</h2>
-    <div class="sub">Verify your membership and receive <b style="color:var(--gold)">10 GBK</b> as the signup reward, subject to campaign eligibility.</div>
+    <div class="sub">Verify your membership and receive <b style="color:var(--gold)">50 GBK</b> as the signup reward, subject to campaign eligibility.</div>
     <input id="name" placeholder="Member name (required)" autocomplete="name" required>
     <input id="email" type="email" placeholder="Email address" autocomplete="email">
-    <input id="wallet" placeholder="Wallet address (optional — for 10 GBK reward)" autocomplete="off">
+    <input id="wallet" placeholder="Wallet address (optional — for 50 GBK reward)" autocomplete="off">
     <select id="country" required><option value="">Select country (required)</option><option>🇮🇳 India</option><option>🇺🇸 USA</option><option>🇬🇧 United Kingdom</option><option>🇯🇵 Japan</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇩🇪 Germany</option><option>🇦🇪 UAE</option><option>🇲🇽 Mexico</option><option>🇵🇭 Philippines</option><option>🌍 Other</option></select>
     <div class="check">By continuing, you agree to the registration terms and privacy policy. One genuine account per person. Verification, eligibility and anti-abuse checks apply.</div>
     <button class="btn primary" style="width:100%" onclick="join()">JOIN GBK GLOBAL — FREE</button>
-    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🎁 SUBMIT WALLET — OPTIONAL / 10 GBK</button>
-    <div id="msg" class="msg">Wallet is optional. Submit a valid BNB wallet to request the 10 GBK signup reward. After wallet submission, verification and reward processing may take up to 14 days, subject to eligibility and anti-abuse checks.</div>
+    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🎁 SUBMIT WALLET — OPTIONAL / 50 GBK</button>
+    <div id="msg" class="msg">Wallet is optional. Submit a valid BNB wallet to request the 50 GBK signup reward. After wallet submission, verification and reward processing may take up to 14 days, subject to eligibility and anti-abuse checks.</div>
     <div class="trust">
       <div><b>🔐 Secure</b><span>Verification required</span></div>
       <div><b>🌍 Global</b><span>Built for worldwide access</span></div>
@@ -88,14 +88,14 @@
     <div class="bar"><i id="progress"></i></div>
     <div id="leaders"></div>
     <div class="share">
-      <b>📣 Share & Earn 10 GBK per Verified Referral</b>
-      <div class="sub">Each qualifying new member who completes required verification through your unique referral link can add <b style="color:var(--gold)">10 GBK</b> to your campaign rewards, subject to eligibility and anti-abuse checks.</div>
+      <b>📣 Share & Earn 50 GBK per Verified Referral</b>
+      <div class="sub">Each qualifying new member who completes required verification through your unique referral link can add <b style="color:var(--gold)">50 GBK</b> to your campaign rewards, subject to eligibility and anti-abuse checks.</div>
       <button class="btn secondary" onclick="share()">📲 SHARE GBK GLOBAL</button>
     </div>
   </div>
 </section>
 
-<div class="rules">🎁 The 10 GBK signup reward and 10 GBK qualifying-referral reward are campaign rewards, subject to verification, eligibility and anti-abuse checks. The 10,000,000 GBK pool is a promotional campaign pool, not guaranteed income or guaranteed monetary value. Final rewards, eligibility, allocation, verification requirements and campaign dates must be published in official terms. Fake accounts, bots, duplicate accounts and abusive activity are excluded. “Verified opportunities” should only be used for opportunities that GBK has actually checked.</div>
+<div class="rules">🎁 The 50 GBK signup reward and 50 GBK qualifying-referral reward are campaign rewards, subject to verification, eligibility and anti-abuse checks. Rewards are not guaranteed income or guaranteed monetary value. Final rewards, eligibility, allocation, verification requirements and campaign dates must be published in official terms. Fake accounts, bots, duplicate accounts and abusive activity are excluded. “Verified opportunities” should only be used for opportunities that GBK has actually checked.</div>
 <div class="footer">GBK Global • Free Membership • Knowledge • Skills • Opportunities • 1 Million Community Campaign</div>
 </div>
 
@@ -157,17 +157,20 @@ async function verifyEmailOtp(){
 
  m.textContent="✅ Email verified. Registration complete. Opening GBK Global…";
 
- // Save the verified member profile without blocking the redirect.
+ // Save the verified member profile with the authenticated Supabase session.
  try{
-   await Promise.race([
+   const {data:{session}}=await supabaseClient.auth.getSession();
+   if(session){
+    await Promise.race([
      fetch(GBK_REWARDS_API,{
        method:"POST",
-       headers:{"Content-Type":"application/json"},
+       headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},
        body:JSON.stringify({email,name,country}),
        keepalive:true
      }),
      new Promise(resolve=>setTimeout(resolve,1000))
-   ]);
+    ]);
+   }
  }catch(e){}
 
  // Always open the main GBK Global site after successful OTP verification.
@@ -184,7 +187,7 @@ async function submitWallet(){
    const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({wallet,name:document.getElementById("name").value.trim(),country:document.getElementById("country").value})});
    const d=await r.json();
    if(!r.ok) throw new Error(d.error||"Wallet submission failed");
-   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 10 GBK reward is pending verification/transfer and may be processed within up to 14 days.":"✅ Reward already recorded.";
+   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 50 GBK reward is pending verification/transfer and may be processed within up to 14 days.":"✅ Reward already recorded.";
    setTimeout(()=>{ window.location.href="https://gbkai.com/"; },1500);
  }catch(e){msg.textContent="Wallet submission failed: "+(e.message||"Please try again.");}
 }
