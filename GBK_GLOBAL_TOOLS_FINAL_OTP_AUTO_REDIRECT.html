@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071225">
+<title>GBK Global — Knowledge, Skills & Opportunities</title>
+<style>
+:root{--bg:#050c18;--card:#0b1729;--card2:#0d1d33;--line:#1b3555;--text:#f5f8ff;--muted:#8fa3bf;--gold:#ffd45a;--cyan:#55e6ff;--purple:#a78bfa;--green:#69e6a1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#17365b 0,#081323 36%,#050c18 72%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1080px;margin:auto;padding:18px 18px 42px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.5px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),#f3a928);color:#071225;font-weight:1000}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.5px;margin-top:2px}
+.hero{text-align:center;padding:58px 10px 34px}.eyebrow{display:inline-block;padding:7px 11px;border:1px solid #315177;background:#0b1b31;border-radius:99px;color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(38px,7vw,72px);line-height:.98;margin:18px auto 16px;max-width:900px;letter-spacing:-2px}.gold{color:var(--gold)}.hero p{max-width:760px;margin:auto;color:#b5c5db;font-size:16px;line-height:1.65}.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}.btn{border:0;border-radius:13px;padding:14px 18px;font-weight:950;cursor:pointer;font-size:14px}.primary{background:linear-gradient(90deg,var(--gold),#f4ad35);color:#071225}.secondary{background:#10233c;color:white;border:1px solid #2b4a6d}
+.pool{max-width:700px;margin:24px auto 0;padding:15px;border:1px solid #5a4b20;background:linear-gradient(90deg,#17190f,#151321);border-radius:18px}.pool b{display:block;color:var(--gold);font-size:25px}.pool span{display:block;color:#9aa9bf;font-size:11px;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 20px}.stat{padding:18px;border:1px solid var(--line);background:rgba(11,23,41,.88);border-radius:16px;text-align:center}.stat strong{display:block;font-size:27px}.stat small{color:var(--muted)}
+.section-title{text-align:center;margin:36px 0 18px}.section-title h2{margin:0;font-size:30px}.section-title p{margin:8px auto;color:var(--muted);max-width:720px;line-height:1.5}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.benefit{padding:17px;border-radius:16px;background:var(--card);border:1px solid var(--line);min-height:145px}.benefit i{font-style:normal;font-size:26px}.benefit b{display:block;margin:9px 0 5px}.benefit span{display:block;color:var(--muted);font-size:12px;line-height:1.45}
+.journey{display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap;margin:18px 0}.step{padding:9px 12px;border-radius:99px;background:#0d1d33;border:1px solid #284462;font-size:11px;font-weight:850}.arrow{color:var(--cyan)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.card{background:rgba(11,23,41,.94);border:1px solid var(--line);border-radius:18px;padding:21px}.card h2{margin:0 0 6px;font-size:20px}.sub{color:var(--muted);font-size:12px;line-height:1.5}input,select{width:100%;padding:14px;margin:7px 0;border:1px solid #294568;border-radius:13px;background:#071224;color:white;outline:none}input:focus,select:focus{border-color:var(--cyan)}.check{font-size:10px;color:#8194b0;line-height:1.5;margin:9px 0}.msg{min-height:18px;color:var(--cyan);font-size:11px;margin-top:9px}
+.counter{font-size:36px;font-weight:1000;margin:14px 0 7px}.counter span{color:var(--gold)}.bar{height:10px;background:#14243c;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--gold));border-radius:99px}.share{margin-top:18px;padding:15px;border-radius:16px;background:#0c1a30;border:1px solid #243c60}.share b{display:block;margin-bottom:5px}.share .btn{margin-top:10px;width:100%}.leader{display:grid;grid-template-columns:32px 1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid #152946;font-size:11px}.leader:last-child{border:0}.flag{font-size:18px}.badge{color:var(--green);font-size:10px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.trust div{padding:14px;background:#081426;border:1px solid #1b3555;border-radius:14px;text-align:center}.trust b{display:block}.trust span{font-size:10px;color:var(--muted)}
+.rules{margin-top:20px;color:#7186a4;font-size:10px;line-height:1.65;text-align:center}.footer{text-align:center;color:#657995;font-size:10px;padding-top:24px}
+@media(max-width:800px){.benefits{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:12px 12px 30px}.hero{padding-top:42px}.hero h1{letter-spacing:-1px}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.benefits{grid-template-columns:1fr 1fr}.trust{grid-template-columns:1fr}.pool b{font-size:22px}.cta .btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="brand"><div class="logo">GBK</div><div>GBK GLOBAL<small>KNOWLEDGE • SKILLS • OPPORTUNITIES</small></div></header>
+
+<section class="hero">
+  <div class="eyebrow">🌍 A GLOBAL AI-POWERED ECOSYSTEM</div>
+  <h1>Learn. Build Skills.<br><span class="gold">Discover Opportunities & Rewards.</span></h1>
+  <p>GBK AI helps people access knowledge, learn in multiple languages, build practical skills and discover work, business and earning opportunities around the world.</p>
+  <div class="cta">
+    <button class="btn primary" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">JOIN GBK GLOBAL — FREE</button>
+    <button class="btn secondary" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">EXPLORE BENEFITS</button>
+  </div>
+  <div class="pool"><b>🎁 SIGN UP & GET 10 GBK</b><span>Plus participate in the <strong>10,000,000 GBK</strong> promotional pool through qualifying verified sharing activity • Top 100 Share Members • official campaign terms apply</span></div>
+</section>
+
+<section class="stats">
+  <div class="stat"><strong id="memberCount">0</strong><small>Verified members</small></div>
+  <div class="stat"><strong>1,000,000</strong><small>Community target</small></div>
+  <div class="stat"><strong>Top 100</strong><small>Share Members</small></div>
+</section>
+
+<section id="benefits">
+<div class="section-title"><h2>🌐 What GBK Focuses On</h2><p>A practical ecosystem designed around a simple global need: helping people move from information to skills and from skills to opportunity.</p></div>
+<div class="benefits">
+  <div class="benefit"><i>🤖</i><b>AI for Everyone</b><span>Understand and use AI for learning, work, business and everyday tasks.</span></div>
+  <div class="benefit"><i>🧠</i><b>Knowledge</b><span>Get useful information and simple explanations for complex subjects.</span></div>
+  <div class="benefit"><i>🎓</i><b>Skills Orientation</b><span>Identify practical skills to learn, improve and apply.</span></div>
+  <div class="benefit"><i>🌍</i><b>Multiple Languages</b><span>Learn and explore knowledge in your preferred language and across languages.</span></div>
+  <div class="benefit"><i>💼</i><b>Work Opportunities</b><span>Explore jobs, freelance, remote work, projects and career pathways.</span></div>
+  <div class="benefit"><i>💰</i><b>Verified Opportunities</b><span>Highlight earning opportunities only when source and relevant details can be checked.</span></div>
+  <div class="benefit"><i>🎁</i><b>GBK Member Rewards</b><span>Eligible verified members can participate in signup and qualifying referral reward campaigns.</span></div>
+  <div class="benefit"><i>🚀</i><b>Entrepreneurship</b><span>Turn knowledge and skills into services, projects and businesses.</span></div>
+  <div class="benefit"><i>🤝</i><b>Global Community</b><span>Learn, collaborate, share and participate in a growing worldwide community.</span></div>
+</div>
+<div class="journey">
+  <span class="step">Discover</span><span class="arrow">→</span><span class="step">Learn</span><span class="arrow">→</span><span class="step">Build Skills</span><span class="arrow">→</span><span class="step">Verify</span><span class="arrow">→</span><span class="step">Work</span><span class="arrow">→</span><span class="step">Earn</span><span class="arrow">→</span><span class="step">Grow</span>
+</div>
+</section>
+
+<section class="grid" id="signup">
+  <div class="card">
+    <h2>⚡ Join GBK Global Free</h2>
+    <div class="sub">Verify your membership and receive <b style="color:var(--gold)">10 GBK</b> as the signup reward, subject to campaign eligibility.</div>
+    <input id="name" placeholder="Member name (required)" autocomplete="name" required>
+    <input id="email" type="email" placeholder="Email address" autocomplete="email">
+    <input id="wallet" placeholder="Wallet address (optional — for 10 GBK reward)" autocomplete="off">
+    <select id="country" required><option value="">Select country (required)</option><option>🇮🇳 India</option><option>🇺🇸 USA</option><option>🇬🇧 United Kingdom</option><option>🇯🇵 Japan</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇩🇪 Germany</option><option>🇦🇪 UAE</option><option>🇲🇽 Mexico</option><option>🇵🇭 Philippines</option><option>🌍 Other</option></select>
+    <div class="check">By continuing, you agree to the registration terms and privacy policy. One genuine account per person. Verification, eligibility and anti-abuse checks apply.</div>
+    <button class="btn primary" style="width:100%" onclick="join()">JOIN GBK GLOBAL — FREE</button>
+    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🎁 SUBMIT WALLET — OPTIONAL / 10 GBK</button>
+    <div id="msg" class="msg">Wallet is optional. Submit a valid BNB wallet to request the 10 GBK signup reward. After wallet submission, verification and reward processing may take up to 14 days, subject to eligibility and anti-abuse checks.</div>
+    <div class="trust">
+      <div><b>🔐 Secure</b><span>Verification required</span></div>
+      <div><b>🌍 Global</b><span>Built for worldwide access</span></div>
+      <div><b>🆓 Free</b><span>No signup fee</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏆 Top 100 Share Members</h2>
+    <div class="sub">Recognition based on verified qualifying shares/referrals after production backend integration.</div>
+    <div class="counter"><span id="liveCount">0</span> / 1,000,000</div>
+    <div class="bar"><i id="progress"></i></div>
+    <div id="leaders"></div>
+    <div class="share">
+      <b>📣 Share & Earn 10 GBK per Verified Referral</b>
+      <div class="sub">Each qualifying new member who completes required verification through your unique referral link can add <b style="color:var(--gold)">10 GBK</b> to your campaign rewards, subject to eligibility and anti-abuse checks.</div>
+      <button class="btn secondary" onclick="share()">📲 SHARE GBK GLOBAL</button>
+    </div>
+  </div>
+</section>
+
+<div class="rules">🎁 The 10 GBK signup reward and 10 GBK qualifying-referral reward are campaign rewards, subject to verification, eligibility and anti-abuse checks. The 10,000,000 GBK pool is a promotional campaign pool, not guaranteed income or guaranteed monetary value. Final rewards, eligibility, allocation, verification requirements and campaign dates must be published in official terms. Fake accounts, bots, duplicate accounts and abusive activity are excluded. “Verified opportunities” should only be used for opportunities that GBK has actually checked.</div>
+<div class="footer">GBK Global • Free Membership • Knowledge • Skills • Opportunities • 1 Million Community Campaign</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://yjwgnapymqetxvksqacd.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_Y3n5bVO3xveBnyt4LKbCPg_f5ilMSuz';
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const GBK_REWARDS_API='https://yjwgnapymqetxvksqacd.supabase.co/functions/v1/gbk-global-rewards';
+document.getElementById("wallet").style.display="none";
+document.querySelector('button[onclick="submitWallet()"]').style.display="none";
+
+const leaders=[];
+function renderLeaders(members){
+ const rows=(members||[]).slice(0,10);
+ document.getElementById("leaders").innerHTML=rows.length?rows.map((x,i)=>{const rank=i<3?["🥇","🥈","🥉"][i]:String(i+1);return `<div class="leader"><span>${rank}</span><span><span class="flag">${x.country_name||"🌍"}</span> <b>${(x.display_name||"GBK Member").replace(/[<>]/g,"")}</b></span><span class="badge">Verified</span></div>`}).join(""): `<div class="sub" style="padding:12px 0">Recent verified members will appear here.</div>`;
+}
+async function loadRecentMembers(){try{const r=await fetch(GBK_REWARDS_API);const d=await r.json();if(r.ok){renderLeaders(d.members);document.getElementById("memberCount").textContent=String(d.count||0);document.getElementById("liveCount").textContent=String(d.count||0);const pct=Math.min(100,(Number(d.count||0)/1000000)*100);document.getElementById("progress").style.width=pct+"%";}}catch(e){renderLeaders([])}}
+loadRecentMembers();
+
+function join(){
+ const email=document.getElementById("email").value.trim(), country=document.getElementById("country").value, msg=document.getElementById("msg");
+ const name=document.getElementById("name").value.trim(); if(!name||!country||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent="Enter your name, valid email and country.";return;}
+ if(!supabaseClient){
+   msg.textContent="OTP service is not configured yet. Add the Supabase anon key to this page.";
+   return;
+ }
+ msg.textContent="Sending verification code to your email…";
+ supabaseClient.auth.signInWithOtp({
+   email,
+   options:{shouldCreateUser:true}
+ }).then(({error})=>{
+   if(error) throw error;
+   msg.innerHTML="📩 OTP sent to <b>"+email+"</b>. Check Inbox, Spam and Promotions, then enter the code.";
+   showOtpBox();
+ }).catch(e=>{msg.textContent="OTP could not be sent: "+(e.message||"Please try again.");});
+}
+
+function showOtpBox(){
+ let box=document.getElementById("otpBox");
+ if(box)return;
+ box=document.createElement("div");
+ box.id="otpBox";
+ box.innerHTML='<input id="otp" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit email OTP"><button class="btn primary" style="width:100%" onclick="verifyEmailOtp()">✅ VERIFY EMAIL</button><div id="otpMsg" class="msg"></div>';
+ document.getElementById("msg").after(box);
+}
+
+async function verifyEmailOtp(){
+ const email=document.getElementById("email").value.trim(), name=document.getElementById("name").value.trim(), country=document.getElementById("country").value;
+ const token=document.getElementById("otp").value.trim(); const m=document.getElementById("otpMsg");
+ if(!name||!country){m.textContent="Name and country are required.";return;}
+ if(!/^\d{6}$/.test(token)){m.textContent="Enter the 6-digit OTP.";return;}
+ m.textContent="Verifying…";
+ const {error}=await supabaseClient.auth.verifyOtp({email,token,type:"email"});
+ if(error){m.textContent="OTP verification failed: "+error.message;return;}
+ try{
+  const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,name,country})});
+  if(r.ok){
+   m.textContent="✅ Email verified. Registration complete. Opening GBK Global…";
+  }else{
+   m.textContent="✅ Email verified. Opening GBK Global…";
+  }
+ }catch(e){
+  m.textContent="✅ Email verified. Opening GBK Global…";
+ }
+ setTimeout(()=>{ window.location.replace("https://gbkai.com/"); },800);
+}
+
+async function submitWallet(){
+ const wallet=document.getElementById("wallet").value.trim(), msg=document.getElementById("msg");
+ if(!/^0x[a-fA-F0-9]{40}$/.test(wallet)){msg.textContent="Enter a valid BNB wallet address.";return;}
+ const {data:{session}}=await supabaseClient.auth.getSession();
+ if(!session){msg.textContent="Please verify your email first.";return;}
+ msg.textContent="Submitting wallet for verification…";
+ try{
+   const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({wallet,name:document.getElementById("name").value.trim(),country:document.getElementById("country").value})});
+   const d=await r.json();
+   if(!r.ok) throw new Error(d.error||"Wallet submission failed");
+   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 10 GBK reward is pending verification/transfer and may be processed within up to 14 days.":"✅ Reward already recorded.";
+   setTimeout(()=>{ window.location.href="https://gbkai.com/"; },1500);
+ }catch(e){msg.textContent="Wallet submission failed: "+(e.message||"Please try again.");}
+}
+
+function share(){
+ const url=location.href.split("?")[0], text="Join GBK Global free — learn, build skills and discover global opportunities.";
+ if(navigator.share) navigator.share({title:"GBK Global",text,url}).catch(()=>{});
+ else if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>alert("Link copied."));
+ else alert(url);
+}
+</script>
+</body>
+</html>
