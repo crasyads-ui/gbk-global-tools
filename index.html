@@ -66,14 +66,14 @@
   <div class="card">
     <h2>⚡ Join GBK Global Free</h2>
     <div class="sub">Verify your membership and receive <b style="color:var(--gold)">10 GBK</b> as the signup reward, subject to campaign eligibility.</div>
-    <input id="name" placeholder="Display name (optional)" autocomplete="name">
+    <input id="name" placeholder="Member name (required)" autocomplete="name" required>
     <input id="email" type="email" placeholder="Email address" autocomplete="email">
-    <input id="wallet" placeholder="Wallet address (after verification)" autocomplete="off">
-    <select id="country"><option value="">Select country</option><option>🇮🇳 India</option><option>🇺🇸 USA</option><option>🇬🇧 United Kingdom</option><option>🇯🇵 Japan</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇩🇪 Germany</option><option>🇦🇪 UAE</option><option>🇲🇽 Mexico</option><option>🇵🇭 Philippines</option><option>🌍 Other</option></select>
+    <input id="wallet" placeholder="Wallet address (optional — for 10 GBK reward)" autocomplete="off">
+    <select id="country" required><option value="">Select country (required)</option><option>🇮🇳 India</option><option>🇺🇸 USA</option><option>🇬🇧 United Kingdom</option><option>🇯🇵 Japan</option><option>🇧🇷 Brazil</option><option>🇮🇩 Indonesia</option><option>🇩🇪 Germany</option><option>🇦🇪 UAE</option><option>🇲🇽 Mexico</option><option>🇵🇭 Philippines</option><option>🌍 Other</option></select>
     <div class="check">By continuing, you agree to the registration terms and privacy policy. One genuine account per person. Verification, eligibility and anti-abuse checks apply.</div>
     <button class="btn primary" style="width:100%" onclick="join()">JOIN GBK GLOBAL — FREE</button>
-    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🔐 SUBMIT WALLET FOR 10 GBK</button>
-    <div id="msg" class="msg">After OTP verification, submit your wallet. Eligible members receive the 10 GBK reward automatically.</div>
+    <button class="btn secondary" style="width:100%;margin-top:8px" onclick="submitWallet()">🎁 SUBMIT WALLET — OPTIONAL / 10 GBK</button>
+    <div id="msg" class="msg">Wallet is optional. Submit a valid BNB wallet to request the 10 GBK signup reward. After wallet submission, verification and reward processing may take up to 14 days, subject to eligibility and anti-abuse checks.</div>
     <div class="trust">
       <div><b>🔐 Secure</b><span>Verification required</span></div>
       <div><b>🌍 Global</b><span>Built for worldwide access</span></div>
@@ -108,15 +108,17 @@ const GBK_REWARDS_API='https://yjwgnapymqetxvksqacd.supabase.co/functions/v1/gbk
 document.getElementById("wallet").style.display="none";
 document.querySelector('button[onclick="submitWallet()"]').style.display="none";
 
-const leaders=[
-["🥇","🇮🇳","GBK Community Member"],["🥈","🇺🇸","Global Community Member"],["🥉","🇧🇷","GBK Community Member"],
-["4","🇮🇩","Global Member"],["5","🇯🇵","GBK Member"],["6","🇬🇧","Global Member"],["7","🇩🇪","GBK Member"],["8","🇦🇪","Global Member"],["9","🇲🇽","GBK Member"],["10","🇵🇭","Global Member"]
-];
-document.getElementById("leaders").innerHTML=leaders.map(x=>`<div class="leader"><span>${x[0]}</span><span><span class="flag">${x[1]}</span> <b>${x[2]}</b></span><span class="badge">Verified</span></div>`).join("");
+const leaders=[];
+function renderLeaders(members){
+ const rows=(members||[]).slice(0,10);
+ document.getElementById("leaders").innerHTML=rows.length?rows.map((x,i)=>{const rank=i<3?["🥇","🥈","🥉"][i]:String(i+1);return `<div class="leader"><span>${rank}</span><span><span class="flag">${x.country_name||"🌍"}</span> <b>${(x.display_name||"GBK Member").replace(/[<>]/g,"")}</b></span><span class="badge">Verified</span></div>`}).join(""): `<div class="sub" style="padding:12px 0">Recent verified members will appear here.</div>`;
+}
+async function loadRecentMembers(){try{const r=await fetch(GBK_REWARDS_API);const d=await r.json();if(r.ok){renderLeaders(d.members);document.getElementById("memberCount").textContent=String(d.count||0);document.getElementById("liveCount").textContent=String(d.count||0);const pct=Math.min(100,(Number(d.count||0)/1000000)*100);document.getElementById("progress").style.width=pct+"%";}}catch(e){renderLeaders([])}}
+loadRecentMembers();
 
 function join(){
  const email=document.getElementById("email").value.trim(), country=document.getElementById("country").value, msg=document.getElementById("msg");
- if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!country){msg.textContent="Enter a valid email and select your country.";return;}
+ const name=document.getElementById("name").value.trim(); if(!name||!country||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent="Enter your name, valid email and country.";return;}
  if(!supabaseClient){
    msg.textContent="OTP service is not configured yet. Add the Supabase anon key to this page.";
    return;
@@ -137,21 +139,39 @@ function showOtpBox(){
  if(box)return;
  box=document.createElement("div");
  box.id="otpBox";
- box.innerHTML='<input id="otp" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter email OTP"><button class="btn primary" style="width:100%" onclick="verifyEmailOtp()">✅ VERIFY EMAIL</button><div id="otpMsg" class="msg"></div>';
+ box.innerHTML='<input id="otp" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit email OTP"><button class="btn primary" style="width:100%" onclick="verifyEmailOtp()">✅ VERIFY EMAIL</button><div id="otpMsg" class="msg"></div>';
  document.getElementById("msg").after(box);
 }
 
 async function verifyEmailOtp(){
  const email=document.getElementById("email").value.trim();
+ const name=document.getElementById("name").value.trim();
+ const country=document.getElementById("country").value;
  const token=document.getElementById("otp").value.trim();
  const m=document.getElementById("otpMsg");
+ if(!name||!country){m.textContent="Name and country are required.";return;}
  if(!/^\d{6}$/.test(token)){m.textContent="Enter the 6-digit OTP.";return;}
  m.textContent="Verifying…";
  const {error}=await supabaseClient.auth.verifyOtp({email,token,type:"email"});
  if(error){m.textContent="OTP verification failed: "+error.message;return;}
- m.textContent="✅ Email verified. Wallet submission is now enabled.";
- document.getElementById("wallet").style.display="block";
- document.querySelector('button[onclick="submitWallet()"]').style.display="block";
+
+ m.textContent="✅ Email verified. Registration complete. Opening GBK Global…";
+
+ // Save the verified member profile without blocking the redirect.
+ try{
+   await Promise.race([
+     fetch(GBK_REWARDS_API,{
+       method:"POST",
+       headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({email,name,country}),
+       keepalive:true
+     }),
+     new Promise(resolve=>setTimeout(resolve,1000))
+   ]);
+ }catch(e){}
+
+ // Always open the main GBK Global site after successful OTP verification.
+ window.location.replace("https://gbkai.com/");
 }
 
 async function submitWallet(){
@@ -161,10 +181,11 @@ async function submitWallet(){
  if(!session){msg.textContent="Please verify your email first.";return;}
  msg.textContent="Submitting wallet for verification…";
  try{
-   const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({wallet})});
+   const r=await fetch(GBK_REWARDS_API,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token},body:JSON.stringify({wallet,name:document.getElementById("name").value.trim(),country:document.getElementById("country").value})});
    const d=await r.json();
    if(!r.ok) throw new Error(d.error||"Wallet submission failed");
-   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 10 GBK reward is pending final verification/transfer.":"✅ Reward already recorded.";
+   msg.textContent=d.rewardStatus==='pending'?"✅ Wallet submitted. 10 GBK reward is pending verification/transfer and may be processed within up to 14 days.":"✅ Reward already recorded.";
+   setTimeout(()=>{ window.location.href="https://gbkai.com/"; },1500);
  }catch(e){msg.textContent="Wallet submission failed: "+(e.message||"Please try again.");}
 }
 
